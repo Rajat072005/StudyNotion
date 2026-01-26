@@ -92,12 +92,18 @@ export const UpdateSubSection = async (req,res) => {
 export const DeleteSubSection = async (req,res) => {
     try {
         const {SubSectionId} = req.params;
-        if(!SubSectionId){
+        const {SectionId} = req.body;
+        if(!SubSectionId || !SectionId){
             return res.status(422).json({
                 success : false,
                 message:"required field"
             })
         }
+        await Section.findByIdAndUpdate(SectionId , {
+            $pull : {
+                subSection : SubSectionId
+            }
+        })
         await SubSection.findByIdAndDelete(SubSectionId);
         return res.status(200).json({
             success : true,

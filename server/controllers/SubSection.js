@@ -4,7 +4,7 @@ import {uploadImageToCloudinary} from "../utils/imageUploader.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-
+//create Sub section
 export const CreateSubSection = async (req,res) => {
     try {
         const {title , timeDuration , description  , SectionId} = req.body;

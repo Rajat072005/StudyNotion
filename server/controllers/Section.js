@@ -54,6 +54,12 @@ export const UpdateSection = async (req,res) => {
             {new : true},
         )
 
+        return res.status(200).json({
+            success : true,
+            message : "section updated successfully",
+            UpdatedSectionDetails
+        })
+
         
 
     } catch (error) {
@@ -78,14 +84,14 @@ export const DeleteSection = async (req,res) => {
         await Section.findByIdAndDelete(SectionId);
         return res.status(200).json({
             success : true,
-            message:"section deleted section"
+            message:"section deleted successfully"
         })
         
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({
             success : false,
-            message:"error while updating section"
+            message:"error while deleting section"
         })
     }
 }

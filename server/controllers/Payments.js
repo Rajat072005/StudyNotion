@@ -1,5 +1,5 @@
 import {instance} from "../config/razorpay";
-import User from "../models/User";
+import User, { findByIdAndUpdate } from "../models/User";
 import Course from "../models/Course";
 import mailSender from "../utils/mailSender";
 import mongoose from "mongoose";
@@ -88,5 +88,52 @@ export const verifysignature = async (req , res) => {
 
     if(webhookSecret === signature){
         console.log("payment is authorised");
+
+        const {courseId , userId} = req.body.payload.entity.notes;
+
+        try {
+            const enrolledCourse = await Course.findOneAndUpdate(
+                                            {_id : courseId},
+                                            {$push : {studentsEnrolled : userId}},
+                                            {new : true},
+            )
+            if(!enrolledCourse){
+                return res.stauts(500).json({
+                    success : true,
+                    message : "course not found"
+                })
+            }
+            console.log(enrolledCourse);
+
+            const enrolledStudent = await User.findOneAndUpdate(
+                                            {_id : userId},
+                                            {$push : {courses : courseId}},
+                                            {new : true},
+            )
+            console.log(enrolledStudent);
+
+            const emailResponse = await mailSender(
+                                           enrolledStudent.email,
+                                           "Congratulations from code help",
+                                           "You have successfully purchased the course" 
+            )
+            console.log(emailResponse);
+            return res.status(200).json({
+                success : true,
+                message : "course purchased successfully",
+            })
+        } catch (error) {
+            console.log(error.message);
+            return res.status(500).json({
+                success : false,
+                message : error.message,
+            })
+        }
+    }
+    else{
+        return res.status(400).json({
+            success : false,
+            message : "Invalid request",
+        })
     }
 }

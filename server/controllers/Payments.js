@@ -36,6 +36,39 @@ export const CapturePayment = async (req,res) => {
         } catch (error) {
             console.log(error.message)
         }
+        //order create
+        const amount = course.price;
+        const currency = "INR";
+
+        const options = {
+            amount : amount * 100,
+            currency,
+            receipt : Math.random(Date.now()).toString(),
+            notes : {
+                courseId : CourseId,
+                userId : UserId,
+            }
+        }
+        //initiate payment using razorpay
+        try {
+            const paymentResponse = await instance.orders.create(options);
+            console.log(paymentResponse);
+            return res.status(200).json({
+                success: true,
+                courseName : course.courseName,
+                courseDescription : course.courseDescription,
+                thumbnail : course.thumbnail,
+                orderId : paymentResponse.id,
+                amount : paymentResponse.amount
+
+            })
+        } catch (error) {
+            console.log(error.message);
+            return res.json({
+                success : false,
+                message : "could not initiate payment"
+            })
+        }
 
 
     } catch (error) {

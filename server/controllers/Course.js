@@ -1,10 +1,10 @@
-const Course = require("../models/Course");
-const User = require("../models/User");
-const Category = require("../models/Category"); 
-const {uploadImageToCloudinary} = require("../utils/imageUploader");
+import Course from "../models/Course";
+import User from "../models/User";
+import Category from "../models/Category"; 
+import {uploadImageToCloudinary} from "../utils/imageUploader";
 require("dotenv").config;
 
-exports.createCourse = async (req,res) => {
+export const createCourse = async (req,res) => {
     try {
         //fetch data
         const {courseName , courseDescription ,  whatYouWillLearn , price , category} = req.body;
@@ -102,8 +102,7 @@ exports.createCourse = async (req,res) => {
 };
 
 //get all courses
-
-exports.getAllCourses = async (req,res) => {
+export const getAllCourses = async (req,res) => {
     try {
         const allCourses = await Tag.find({} , {courseName : true , 
                                             price : true,
@@ -128,3 +127,69 @@ exports.getAllCourses = async (req,res) => {
         })
     }
 };
+
+// get course details
+export const getCourseDetails = async (req,res) => {
+    try {
+        const {courseId} = req.body;
+        
+        const courseDetails = await Course.findById(courseId)
+                                        .populate(
+                                            {
+                                            path : "instructor",
+                                            populate :
+                                                {
+                                                    path : "additionalDetails",
+                                                }
+                                            }
+                                        )
+
+                                        .populate(
+                                            {
+                                                path : "ratingAndReview",
+                                            }
+                                        )
+                                        .populate(
+                                            {
+                                                path : "category"
+                                            }
+                                        )
+                                        .populate(
+                                            {
+                                                path : "courseContent",
+                                                populate : {
+                                                    path : "subSection",
+
+                                                }
+                                            }
+                                        )
+                                        .populate(
+                                            {
+                                                path : "studentsEnrolled",
+                                                populate :
+                                                    {
+                                                        path : "additionalDetails",
+                                                    }
+                                            }
+                                        )
+                                        .exec();
+        if(!courseDetails){
+            return res.status(400).json({
+                success : false,
+                message :  `could not fetch course with id : ${courseId}`,
+            })
+        }
+        return res.status(200).json({
+            success : true,
+            message : "course details fetched successfully",
+            data : courseDetails
+        })
+                    
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            success : false,
+            message : error.message,
+        })
+    }
+}

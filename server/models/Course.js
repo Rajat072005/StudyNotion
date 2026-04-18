@@ -18,6 +18,7 @@ const CourseSchema = new Schema({
     },
     instructor : {
         type : mongoose.Schema.Types.ObjectId,
+        required : true,
         ref : "User"
     },
     whatYouWillLearn : {
@@ -48,13 +49,18 @@ const CourseSchema = new Schema({
     },
     tag:{
         type : [String],
+        required : true,
     },
     studentsEnrolled : [
         {
             type : mongoose.Schema.Types.ObjectId,
             ref : "User"
         }
-    ]
+    ],
+    status : {
+        type : String,
+        enum : ["Draft" , "Published"],
+    }
 });
 
 const CourseModel = model("Course", CourseSchema);

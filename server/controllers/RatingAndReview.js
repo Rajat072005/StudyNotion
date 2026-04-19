@@ -109,3 +109,42 @@ export const getAverageRating = async (req,res) => {
         });
     }
 }
+
+//get all rating and review
+export const getAllRating = async (req,res) => {
+    try {
+        //const {courseId} = req.body;
+        const allReviews = await RatingAndReview.find({})
+                                            .sort({rating : "desc"})
+                                            .populate({
+                                                path : "user",
+                                                select : "FirstName LastName email image"
+                                            })
+                                            .populate({
+                                                path : "course",
+                                                select : "courseName"
+                                            })
+                                            .exec();
+
+        if(!allReviews){
+            return res.status(200).json({
+                success : true,
+                message : "no reviews found"
+            });
+
+        }
+        return res.status(200).json({
+            success : true,
+            message : "all reviews fetched",
+            allReviews
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            success : false,
+            message: "unable to fetch all rating"
+        });
+    }
+    
+}

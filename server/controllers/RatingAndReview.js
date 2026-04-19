@@ -1,6 +1,7 @@
 import User from "../models/User";
 import Course from "../models/Course";
 import RatingAndReview from "../models/RatingAndReview";
+import mongoose from "mongoose";
 
 //create rating 
 export const createRating = async (req,res) => {
@@ -66,5 +67,45 @@ export const createRating = async (req,res) => {
             success : false,
             mesaage : "unable to post rating and review"
         }); 
+    }
+}
+
+// get average rating
+export const getAverageRating = async (req,res) => {
+    try {
+        const {courseId} = req.body;
+        const result  = await RatingAndReview.aggregate(
+                                    [
+                                        {
+                                            $match : {
+                                                course : new mongoose.Types.ObjectId(courseId),
+                                            }
+                                        },
+                                        {
+                                            $group : {
+                                                _id : null,
+                                                averageRating : {$avg : "$rating"}
+                                            }
+                                        }
+                                    ]);
+
+        if(result.length > 0){
+            return res.status(200).json({
+                success : true,
+                averageRating : result[0].averageRating,
+            });
+        }
+        return res.status(200).json({
+            success : true,
+            message : "course has no rating yet",
+            averageRating : 0,
+        });
+                                        
+    } catch (error) {
+        console.log(error.mesaage);
+        return res.status(500).json({
+            success : false,
+            message : "unable to fetch average rating",
+        });
     }
 }

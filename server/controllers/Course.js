@@ -1,8 +1,9 @@
-import Course from "../models/Course";
-import User from "../models/User";
-import Category from "../models/Category"; 
-import {uploadImageToCloudinary} from "../utils/imageUploader";
-require("dotenv").config;
+import Course from "../models/Course.js";
+import User from "../models/User.js";
+import Category from "../models/Category.js"; 
+import {uploadImageToCloudinary} from "../utils/imageUploader.js";
+import dotenv from "dotenv";
+dotenv.config(); 
 
 export const createCourse = async (req,res) => {
     try {

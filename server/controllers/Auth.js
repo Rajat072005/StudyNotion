@@ -1,13 +1,14 @@
-const User = require("../models/User");
-const OTP = require("../models/OTP");
-const otpGenerator = require("otp-generator");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import User from "../models/User.js";
+import OTP from "../models/OTP.js";
+import otpGenerator from "otp-generator";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 //send OTP
 
-exports.sendOTP = async (req, res) => {
+export const sendOTP = async (req, res) => {
   try {
     const { email } = req.body;
     const existingUser = await User.findOne({ email });
@@ -58,7 +59,7 @@ exports.sendOTP = async (req, res) => {
  
 //signup
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
   try {
     //fetch
     const {
@@ -162,7 +163,7 @@ exports.signup = async (req, res) => {
 
 //login
 
-exports.login = async (req , res) => {
+export const login = async (req , res) => {
   try {
     //fetch data 
     const {email , password} = req.body

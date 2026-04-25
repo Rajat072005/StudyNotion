@@ -1,10 +1,11 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const User = require("../models/User");
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
+dotenv.config();
+import User from "../models/User.js";
 
 //auth
 
-exports.auth = async (req, res, next) => {
+export const auth = async (req, res, next) => {
 
     try {
         const token = req.body || req.cookies.token || req.header("Authorisation").replace("Bearer " , "");
@@ -39,7 +40,7 @@ exports.auth = async (req, res, next) => {
 
 //isStudent
 
-exports.isStudent = async (req,res,next) => {
+export const isStudent = async (req,res,next) => {
     try {
         if(req.user.accountType !== "Student"){
             return res.status(401).json({
@@ -58,7 +59,7 @@ exports.isStudent = async (req,res,next) => {
 }
 
 //isAdmin
-exports.isAdmin = async (req,res,next) => {
+export const isAdmin = async (req,res,next) => {
     try {
         if(req.user.accountType !== "Admin"){
             return res.status(401).json({
@@ -78,7 +79,7 @@ exports.isAdmin = async (req,res,next) => {
 
 
 //isInstructor
-exports.isInstructor = async (req,res,next) => {    
+export const isInstructor = async (req,res,next) => {    
     try {
         if(req.user.accountType !== "Instructor"){
             return res.status(401).json({

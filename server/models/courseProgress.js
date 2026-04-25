@@ -1,8 +1,5 @@
-const {
-  Schema,
-  model,
-  default: mongoose
-} = require("mongoose");
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
 const CourseProgressSchema = new Schema({
     courseID : {
@@ -18,6 +15,6 @@ const CourseProgressSchema = new Schema({
     
 });
 
-const CourseProgressModel = model("CourseProgress", CourseProgressSchema);
+const CourseProgress = model("CourseProgress", CourseProgressSchema);
 
-module.exports = CourseProgressModel
+export default CourseProgress;

@@ -1,5 +1,5 @@
-import User from "../models/User"
-import Profile from "../models/Profile"
+import User from "../models/User.js"
+import Profile from "../models/Profile.js"
 
 
 //Update profile

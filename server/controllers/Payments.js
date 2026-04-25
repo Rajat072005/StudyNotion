@@ -1,7 +1,7 @@
-import {instance} from "../config/razorpay";
-import User, { findByIdAndUpdate } from "../models/User";
-import Course from "../models/Course";
-import mailSender from "../utils/mailSender";
+import {instance} from "../config/razorpay.js";
+import User from "../models/User.js";
+import Course from "../models/Course.js";
+import mailSender from "../utils/mailSender.js";
 import mongoose from "mongoose";
 
 //capture payment and initialize razorpay 

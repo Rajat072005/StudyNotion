@@ -1,8 +1,6 @@
-const {
-  Schema,
-  model,
-  default: mongoose
-} = require("mongoose");
+
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
 const SubSectionSchema = new Schema({
     title : {
@@ -19,6 +17,6 @@ const SubSectionSchema = new Schema({
     }
 });
 
-const SubSectionModel = model("SubSection", SubSectionSchema);
+const SubSection = model("SubSection", SubSectionSchema);
 
-module.exports = SubSectionModel
+export default  SubSection;

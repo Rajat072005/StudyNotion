@@ -1,9 +1,12 @@
-const {
-  Schema,
-  model,
-  default: mongoose
-} = require("mongoose");
-const { resetPasswordToken } = require("../controllers/ResetPassword");
+// const {
+//   Schema,
+//   model,
+//   default: mongoose
+// } = require("mongoose");
+
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
+import { resetPasswordToken } from "../controllers/ResetPassword.js";
 
 const UserSchema = new Schema({
     FirstName : {
@@ -65,6 +68,6 @@ const UserSchema = new Schema({
     // },
 });
 
-const UserModel = model("User", UserSchema);
+const User = model("User", UserSchema);
 
-module.exports = UserModel
+export default User;

@@ -1,8 +1,5 @@
-const {
-  Schema,
-  model,
-  default: mongoose
-} = require("mongoose");
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
 const ProfileSchema = new Schema({
     Gender : {
@@ -22,6 +19,5 @@ const ProfileSchema = new Schema({
     
 });
 
-const ProfileModel = model("Profile", ProfileSchema);
-
-module.exports = ProfileModel
+const Profile = model("Profile", ProfileSchema);
+export default  Profile;

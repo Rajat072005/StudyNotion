@@ -1,6 +1,6 @@
-import User from "../models/User";
-import Course from "../models/Course";
-import RatingAndReview from "../models/RatingAndReview";
+import User from "../models/User.js";
+import Course from "../models/Course.js";
+import RatingAndReview from "../models/RatingAndReview.js";
 import mongoose from "mongoose";
 
 //create rating 

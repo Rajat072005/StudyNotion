@@ -1,5 +1,5 @@
-import Category from "../models/Category";
-import Course from "../models/Course";
+import Category from "../models/Category.js";
+import Course from "../models/Course.js";
 
 //create category
 export const createCategory = async (req,res) => {

@@ -2,7 +2,7 @@ import Category from "../models/Category";
 import Course from "../models/Course";
 
 //create category
-exports.createCategory = async (req,res) => {
+export const createCategory = async (req,res) => {
     try {
         const {name} = req.body;
 
@@ -29,7 +29,7 @@ exports.createCategory = async (req,res) => {
 };
 
 //show all category
-exports.getAllCategory = async (req,res) => {
+export const getAllCategory = async (req,res) => {
     try {
         const allCategory = await Category.find({} , {name : true});
         return res.status(200).json({

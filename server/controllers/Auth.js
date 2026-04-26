@@ -4,6 +4,8 @@ import otpGenerator from "otp-generator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import Profile from "../models/Profile.js";
+import mailSender from "../utils/mailSender.js";
 dotenv.config();
 
 //send OTP
@@ -44,9 +46,16 @@ export const sendOTP = async (req, res) => {
     const otpBody = await OTP.create(otpPayload);
     console.log(otpBody);
 
+    await mailSender(
+      email,
+      "Verification Email",
+      `<h1>Your OTP is ${otp}</h1><p>Please use this OTP to verify your account.</p>`
+    )
+
     res.status(200).json({
       success: true,
       message: "otp sent successfully",
+      //otp : otpBody.otp,
     });
   } catch (error) {
     console.log("error while generating otp : ", error);
@@ -114,7 +123,7 @@ export const signup = async (req, res) => {
         success: false,
         message: "otp not found",
       });
-    } else if (otp != recentOtp.otp) {
+    } else if (otp != recentOtp[0].otp) {
       return res.status(400).json({
         success: false,
         message: "incorrect otp",

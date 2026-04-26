@@ -66,3 +66,5 @@ export const deleteAccount = async (req,res) => {
         });
     }
 }
+
+//update profile picture

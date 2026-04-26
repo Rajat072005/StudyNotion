@@ -8,7 +8,7 @@ import User from "../models/User.js";
 export const auth = async (req, res, next) => {
 
     try {
-        const token = req.body || req.cookies.token || req.header("Authorisation").replace("Bearer " , "");
+        const token = req.cookies.token || req.body.token ||  req.header("Authorisation").replace("Bearer " , "");
 
         if(!token){
             return res.status(401).json({
@@ -18,8 +18,8 @@ export const auth = async (req, res, next) => {
         }
 
         try {
-            const decode = jwt.verify(token , JWT_SECRET);
-            console.log(decode);
+            const decode = jwt.verify(token , process.env.JWT_SECRET);
+            console.log("decode : " ,decode);
             req.user = decode;
         } catch (error) {
             console.log(error);
@@ -30,7 +30,7 @@ export const auth = async (req, res, next) => {
         }
         next();
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         return res.status(500).json({
             success : false,
             message: "try again later"

@@ -9,11 +9,14 @@ import { CreateSection , UpdateSection , DeleteSection } from "../controllers/Se
 import { CreateSubSection , UpdateSubSection , DeleteSubSection } from "../controllers/SubSection.js";
 
 
-router.post("/createCourse" , auth , isAdmin , createCourse);
+router.post("/createCourse" , auth , isInstructor , createCourse);
+router.get("/getAllCourses"   , getAllCourses);
+router.get("/getCourseDetails"   , getCourseDetails);
 router.post("/createCategory" , auth , isAdmin , createCategory);
-router.post("createRating" , auth , isStudent , createRating);
-router.post("createSection" , auth , isAdmin , CreateSection);
-router.post("createSubSection" , auth , isAdmin , CreateSubSection);
+router.get("/getAllCategory" , getAllCategory);
+router.post("/createRating" , auth , isStudent , createRating);
+router.post("/createSection" , auth , isInstructor , CreateSection);
+router.post("/createSubSection" , auth , isInstructor , CreateSubSection);
 
 export default router;
 

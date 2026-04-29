@@ -8,7 +8,7 @@ dotenv.config();
 export const createCourse = async (req,res) => {
     try {
         //fetch data
-        const {courseName , courseDescription ,  whatYouWillLearn , price , category} = req.body;
+        const {courseName , courseDescription ,  whatYouWillLearn , price , category , tag} = req.body;
 
 
         //thumbnail
@@ -37,7 +37,7 @@ export const createCourse = async (req,res) => {
         //tag validation
         const categoryDetails = await Category.findById(category);
 
-        if(!tagDetails){
+        if(!categoryDetails){
             return res.status(404).json({
                 sucess : false,
                 message : "category details not found"
@@ -56,7 +56,8 @@ export const createCourse = async (req,res) => {
             instructor : instructorDetails._id,
             price : price,
             thumbnail : thumbnailImage.secure_url,
-            category: categoryDetails._id
+            category: categoryDetails._id,
+            tag : tag
 
         })
 
@@ -105,7 +106,7 @@ export const createCourse = async (req,res) => {
 //get all courses
 export const getAllCourses = async (req,res) => {
     try {
-        const allCourses = await Tag.find({} , {courseName : true , 
+        const allCourses = await Course.find({} , {courseName : true , 
                                             price : true,
                                             thumbnail : true,
                                             instructor : true,

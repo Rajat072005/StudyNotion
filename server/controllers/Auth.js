@@ -188,7 +188,9 @@ export const login = async (req , res) => {
 
     //existing user
 
-    const user = await User.findOne({email}).populate("additionalDetails");
+    const user = await User.findOne({email}).populate("additionalDetails")
+                                            .populate("courses")
+                                            .exec();
 
     if(!user){
       return res.status(400).json({

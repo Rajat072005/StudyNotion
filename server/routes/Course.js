@@ -16,7 +16,11 @@ router.post("/createCategory" , auth , isAdmin , createCategory);
 router.get("/getAllCategory" , getAllCategory);
 router.post("/createRating" , auth , isStudent , createRating);
 router.post("/createSection" , auth , isInstructor , CreateSection);
+router.put("/updateSection" , auth , isInstructor , UpdateSection);
+router.delete("/deleteSection/:SectionId" , auth , isInstructor , DeleteSection);
 router.post("/createSubSection" , auth , isInstructor , CreateSubSection);
+router.put("/updateSubSection" , auth , isInstructor , UpdateSubSection);
+router.delete("/deleteSubSection/:SubSectionId" , auth , isInstructor , DeleteSubSection);
 
 export default router;
 

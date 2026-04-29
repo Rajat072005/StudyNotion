@@ -2,7 +2,7 @@ import Course from "../models/Course.js";
 import User from "../models/User.js";
 import Category from "../models/Category.js"; 
 import {uploadImageToCloudinary} from "../utils/imageUploader.js";
-import dotenv from "dotenv";
+import dotenv, { populate } from "dotenv";
 dotenv.config(); 
 
 export const createCourse = async (req,res) => {
@@ -136,15 +136,20 @@ export const getCourseDetails = async (req,res) => {
         const {courseId} = req.body;
         
         const courseDetails = await Course.findById(courseId)
-                                        .populate(
-                                            {
+                                        .populate({
                                             path : "instructor",
-                                            populate :
+                                            populate : [
                                                 {
-                                                    path : "additionalDetails",
+                                                    path : "additionalDetails"
+                                                },
+                                                {
+                                                    path : "courses",
+                                                    populate:{
+                                                        path : "courseContent"
+                                                    }
                                                 }
-                                            }
-                                        )
+                                            ]
+                                        })
 
                                         .populate(
                                             {
@@ -153,7 +158,9 @@ export const getCourseDetails = async (req,res) => {
                                         )
                                         .populate(
                                             {
-                                                path : "category"
+                                                path : "category",
+                                                select : "name description"
+
                                             }
                                         )
                                         .populate(
